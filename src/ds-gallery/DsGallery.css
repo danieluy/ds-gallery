@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 16px;
-  font-family: Roboto, sans-serif;
 }
 .ds-gallery{
   height: 100%;
@@ -21,41 +20,41 @@
 
 @keyframes swipeLeft{
   0%{
-    transform: translateX(0);
-    opacity: 1;
+    transform: translateX(unset);
+    /*opacity: 1;*/
   }
   100%{
     transform: translateX(-100%);
-    opacity: 0.5;
+    /*opacity: 0.5;*/
   }
 }
 @keyframes swipeRight{
   0%{
-    transform: translateX(0);
-    opacity: 1;
+    transform: translateX(unset);
+    /*opacity: 1;*/
   }
   100%{
     transform: translateX(100%);
-    opacity: 0.5;
+    /*opacity: 0.5;*/
   }
 }
 @keyframes swipeFromLeft{
   0%{
     transform: translateX(100%);
-    opacity: 0.5;
+    /*opacity: 0.5;*/
   }
   100%{
     transform: translateX(0);
-    opacity: 1;
+    /*opacity: 1;*/
   }
 }
 @keyframes swipeFromRight{
   0%{
     transform: translateX(-100%);
-    opacity: 0.5;
+    /*opacity: 0.5;*/
   }
   100%{
     transform: translateX(0);
-    opacity: 1;
+    /*opacity: 1;*/
   }
 }

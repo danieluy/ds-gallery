@@ -4,12 +4,14 @@ import Hammer from 'react-hammerjs';
 
 class DsGalleryImage extends Component {
   render() {
+    // console.log(this.props.deltaX);
     const style = {
       backgroundImage: `url('${this.props.url}')`,
       animationName: this.props.animation.name,
       animationDuration: `${this.props.animation.duration}ms`,
       animationTimingFunction: 'ease-in-out',
       animationFillMode: 'forwards',
+      transform: `translateX(${this.props.deltaX}px)`
     }
     return (
       <div className="ds-gallery-img" style={style} />
@@ -26,7 +28,8 @@ class DsGallery extends Component {
     this.state = {
       current_index: 0,
       images: props.images,
-      animation: null
+      animation: null,
+      deltaX: 0
     }
     if (props.options)
       this.animation_duration = props.options.animation_duration_ms || 300;
@@ -39,9 +42,17 @@ class DsGallery extends Component {
     setTimeout(() => {
       this.setState({
         animation: 'swipeFromLeft',
-        current_index: this.state.current_index < this.state.images.length - 1 ? this.state.current_index + 1 : 0
+        current_index: this.state.current_index < this.state.images.length - 1 ? this.state.current_index + 1 : 0,
+        deltaX: 0
       })
     }, this.animation_duration);
+    setTimeout(() => {
+      this.setState({
+        animation: '',
+        current_index: this.state.current_index,
+        deltaX: 0
+      })
+    }, this.animation_duration + 10);
   }
 
   prevImage() {
@@ -51,30 +62,45 @@ class DsGallery extends Component {
     setTimeout(() => {
       this.setState({
         animation: 'swipeFromRight',
-        current_index: this.state.current_index > 0 ? this.state.current_index - 1 : this.state.images.length - 1
+        current_index: this.state.current_index > 0 ? this.state.current_index - 1 : this.state.images.length - 1,
+        deltaX: 0
       })
     }, this.animation_duration);
+    setTimeout(() => {
+      this.setState({
+        animation: '',
+        current_index: this.state.current_index,
+        deltaX: 0
+      })
+    }, this.animation_duration+10);
   }
 
   handleSwipe(evt) {
-    // left
     if (evt.deltaX < 0)
       this.nextImage();
-    // right
     if (evt.deltaX > 0)
       this.prevImage();
+  }
+
+  handlePan(evt) {
+    this.setState({
+      deltaX: evt.deltaX
+    })
   }
 
   render() {
     const image = this.state.images[this.state.current_index];
     return (
-      <Hammer onSwipe={this.handleSwipe.bind(this)}>
-        <div className="ds-gallery" onKeyPress={this.handleKeyPress}>
-          <DsGalleryImage url={image} animation={{ name: this.state.animation, duration: this.animation_duration }} />
+      <div className="ds-gallery" onKeyPress={this.handleKeyPress}>
+        <Hammer
+          onSwipe={this.handleSwipe.bind(this)}
+          onPan={this.handlePan.bind(this)}
+        >
+          <DsGalleryImage url={image} deltaX={this.state.deltaX} animation={{ name: this.state.animation, duration: this.animation_duration }} />
           {/*<button onClick={this.nextImage.bind(this)} style={{ position: 'fixed', top: 0, right: 0 }}>Next</button>
           <button onClick={this.prevImage.bind(this)} style={{ position: 'fixed', top: 0, left: 0 }}>Prev</button>*/}
-        </div>
-      </Hammer>
+        </Hammer>
+      </div>
     );
   }
 
