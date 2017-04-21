@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './DsGallery.css';
 import Hammer from 'react-hammerjs';
 
-class DsGalleryImage extends Component {
+class DsCurrentGalleryImage extends Component {
   render() {
     // console.log(this.props.deltaX);
     const style = {
@@ -127,7 +127,7 @@ class DsGallery extends Component {
           onSwipe={this.handleSwipe.bind(this)}
           onPan={this.handlePan.bind(this)}
         >
-          <DsGalleryImage url={image} deltaX={this.state.deltaX} animation={{ name: this.state.animation, duration: this.animation_duration }} />
+          <DsCurrentGalleryImage url={image} deltaX={this.state.deltaX} animation={{ name: this.state.animation, duration: this.animation_duration }} />
           {/*<button onClick={this.nextImage.bind(this)} style={{ position: 'fixed', top: 0, right: 0 }}>Next</button>
           <button onClick={this.prevImage.bind(this)} style={{ position: 'fixed', top: 0, left: 0 }}>Prev</button>*/}
         </Hammer>
