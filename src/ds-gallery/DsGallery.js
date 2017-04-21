@@ -29,10 +29,40 @@ class DsGallery extends Component {
       current_index: 0,
       images: props.images,
       animation: null,
-      deltaX: 0
+      deltaX: 0,
+      gallery: {
+        state: null,
+        width: 0,
+        height: 0
+      }
     }
     if (props.options)
       this.animation_duration = props.options.animation_duration_ms || 300;
+    window.addEventListener('resize', this.setGalleryState.bind(this));
+  }
+
+  componentDidMount() {
+    this.setGalleryState();
+  }
+
+  setGalleryState() {
+    if (this.state.gallery.self)
+      this.setState({
+        gallery: {
+          width: this.state.gallery.width,
+          height: this.state.gallery.height
+        }
+      })
+    else {
+      let gallery = document.getElementById('ds-gallery-wrapper'); // TODO findout how do I do this with React
+      this.setState({
+        gallery: {
+          self: gallery,
+          width: gallery.offsetWidth,
+          height: gallery.offsetHeight
+        }
+      })
+    }
   }
 
   nextImage() {
@@ -90,8 +120,9 @@ class DsGallery extends Component {
 
   render() {
     const image = this.state.images[this.state.current_index];
+    console.log(this.state.gallery.height);
     return (
-      <div className="ds-gallery" onKeyPress={this.handleKeyPress}>
+      <div className="ds-gallery" id="ds-gallery-wrapper">
         <Hammer
           onSwipe={this.handleSwipe.bind(this)}
           onPan={this.handlePan.bind(this)}
