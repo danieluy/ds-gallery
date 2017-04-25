@@ -7,15 +7,24 @@
 .ds-gallery{
   height: 100%;
   width: 100%;
-  min-height: 300px;
   overflow: hidden;
+  background-color: #88f;
+}
+.ds-gallery-roll{
+  height: 100%;
+  background-color: #8f8;
 }
 .ds-gallery-img{
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  background-color: #f88;
+}
+.ds-gallery-img img{  
+  max-height: 100%;
+  max-width: 100%;
 }
 
 @keyframes swipeLeft{
