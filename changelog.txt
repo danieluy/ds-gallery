@@ -1,7 +1,13 @@
 [DS Gallery - React Component]
 
 #ToDo
+  00000000 | T | add PropType to every module
   00000000 | T | add ability to handle delegated key presses
 v0.1.0
-  20170412 | P | added react-hammerjs dependency https://www.npmjs.com/package/react-hammerjs
-  20170412 | P | started development
+  20170426 | P | Added DsControls
+  20170425 | P | Added DsRoll
+  20170425 | R | Separated image logic to DsImage
+  20170425 | P | Added DsRoll
+  20170425 | R | Restarted the app design
+  20170412 | P | Added react-hammerjs dependency https://www.npmjs.com/package/react-hammerjs
+  20170412 | P | Started development

@@ -9,12 +9,14 @@ class App extends Component {
       <div className="App">
         <DsGallery
           images={[
+            './img/placeholder_0.jpg',
             './img/placeholder_1.jpg',
             './img/placeholder_2.jpg',
-            './img/placeholder_3.jpg'
+            './img/placeholder_3.jpg',
+            './img/placeholder_4.jpg'
           ]}
           options={{
-            animation_duration_ms: 300
+            animation_duration_ms: 500
           }}
         />
       </div>
