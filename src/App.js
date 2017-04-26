@@ -16,7 +16,7 @@ class App extends Component {
             './img/placeholder_4.jpg'
           ]}
           options={{
-            animation_duration_ms: 300
+            animation_duration_ms: 500
           }}
         />
       </div>
