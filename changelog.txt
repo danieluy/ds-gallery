@@ -1,8 +1,17 @@
 [DS Gallery - React Component]
 
 #ToDo
+  00000000 | T | automate copy/replace DsGallery.css on build
   00000000 | T | add PropType to every module
   00000000 | T | add ability to handle delegated key presses
+v0.2.2
+  20170428 | B1 | controls are positioned relative to the gallery's parent
+  20170428 | F | fixed main path on package.json
+v0.2.1
+  20170428 | F | fixed devDependencies that wore listed as dependencies
+v0.2.0
+  20170428 | P | npm published version now actually works
+  20170428 | P | added babel dependencies and 
 v0.1.0
   20170426 | P | Added DsControls
   20170425 | P | Added DsRoll
