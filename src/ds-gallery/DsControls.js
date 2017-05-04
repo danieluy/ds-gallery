@@ -49,9 +49,9 @@ class DsControls extends Component {
 }
 
 DsControls.propTypes = {
-  actions: PropTypes.PropTypes.objectOf(PropTypes.func),
-  images: PropTypes.array,
-  index: PropTypes.number
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  images: PropTypes.array.isRequired,
+  index: PropTypes.number.isRequired
 };
 
 export default DsControls;

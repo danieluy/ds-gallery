@@ -3,6 +3,7 @@ import './DsGallery.css';
 import Hammer from 'react-hammerjs';
 import DsRoll from './DsRoll';
 import DsControls from './DsControls';
+import ContextMenu from './ContextMenu';
 
 class DsGallery extends Component {
 
@@ -10,9 +11,7 @@ class DsGallery extends Component {
     super();
     this.state = {
       index: {
-        prev: props.images.length - 1,
-        current: 0,
-        next: props.images.length > 1 ? 1 : 0
+        current: 0
       },
       images: props.images,
       animation: {
@@ -26,6 +25,11 @@ class DsGallery extends Component {
         width: 0,
         height: 0,
         roll_width: 10000
+      },
+      context_menu: {
+        x: 0,
+        y: 0,
+        display: false
       }
     }
     window.addEventListener('resize', this.setGalleryState.bind(this));
@@ -35,7 +39,7 @@ class DsGallery extends Component {
     this.setGalleryState();
   }
 
-  updateRollAnimationState(x) {
+  updateRollAnimationState() {
     let name = this.state.animation.name.split('_');
     this.setState({
       animation: {
@@ -45,39 +49,6 @@ class DsGallery extends Component {
         x_end: this.state.gallery.width * this.state.index.current * -1
       }
     })
-  }
-
-  setIndexNext() {
-    if (this.state.images.length > 1) {
-      let next = this.state.index.current + 2;
-      if (this.state.index.current === this.state.images.length - 2)
-        next = 0;
-      if (this.state.index.current === this.state.images.length - 1)
-        next = 1;
-      this.setState({
-        index: {
-          prev: this.state.index.current,
-          current: this.state.index.current === this.state.images.length - 1 ? 0 : this.state.index.current + 1,
-          next: next
-        }
-      }, () => this.updateRollAnimationState.call(this))
-    }
-  }
-  setIndexPrev() {
-    if (this.state.images.length > 1) {
-      let prev = this.state.index.current - 2;
-      if (this.state.index.current === 1)
-        prev = this.state.images.length - 1;
-      if (this.state.index.current === 0)
-        prev = this.state.images.length - 2;
-      this.setState({
-        index: {
-          prev: prev,
-          current: this.state.index.current === 0 ? this.state.images.length - 1 : this.state.index.current - 1,
-          next: this.state.index.current
-        }
-      }, () => this.updateRollAnimationState.call(this))
-    }
   }
 
   setGalleryState() {
@@ -102,37 +73,100 @@ class DsGallery extends Component {
     }
   }
 
+  jumpToImage(index) {
+    this.setState({
+      index: {
+        current: index
+      }
+    }, () => this.updateRollAnimationState.call(this))
+  }
+
   nextImage() {
-    this.setIndexNext();
+    if (this.state.images.length > 1) {
+      this.setState({
+        index: {
+          current: this.state.index.current === this.state.images.length - 1 ? 0 : this.state.index.current + 1
+        }
+      }, () => this.updateRollAnimationState.call(this))
+    }
   }
 
   prevImage() {
-    this.setIndexPrev();
+    if (this.state.images.length > 1) {
+      this.setState({
+        index: {
+          current: this.state.index.current === 0 ? this.state.images.length - 1 : this.state.index.current - 1
+        }
+      }, () => this.updateRollAnimationState.call(this))
+    }
   }
 
-  swipeHandler(evt) {
+  onSwipeHandler(evt) {
     if (evt.deltaX < 0)
       this.nextImage();
     if (evt.deltaX > 0)
       this.prevImage();
   }
 
+  onPressHandler(evt) {
+    evt.preventDefault();
+    this.displayContextMenu({ x: evt.srcEvent.clientX, y: evt.srcEvent.clientY });
+  }
+
+  onRightClickHandler(evt) {
+    evt.preventDefault();
+    this.displayContextMenu({ x: evt.clientX, y: evt.clientY });
+  }
+
+  displayContextMenu(coord) {
+    this.setState({
+      context_menu: {
+        x: coord.x,
+        y: coord.y,
+        display: true
+      }
+    })
+  }
+
+  onTapHandler(evt) {
+    console.log('Tap', evt);
+  }
+
+  contextMenuActionPerformed() {
+    this.setState({ context_menu: { display: false } })
+  }
+
+  openInNewTab(actionPerformed){
+    var img = document.createElement('img');
+    img.src = this.state.images[this.state.index.current];
+    window.open(img.src);
+    actionPerformed();
+  }
+
   render() {
     return (
-      <Hammer onSwipe={this.swipeHandler.bind(this)}>
+      <Hammer onSwipe={this.onSwipeHandler.bind(this)} onPress={this.onPressHandler.bind(this)} onContextMenu={this.onRightClickHandler.bind(this)} >
         <div className="ds-gallery" id="ds-gallery-wrapper">
-          <DsRoll gallery={this.state.gallery} images={this.state.images} animation={this.state.animation} />
-          {/*<button onClick={this.nextImage.bind(this)} style={{ position: 'fixed', top: 0, right: 0 }}>Next</button>
-          <button onClick={this.prevImage.bind(this)} style={{ position: 'fixed', top: 0, left: 0 }}>Prev</button>*/}
+          <ContextMenu
+            actions={{
+              'Open in new window': this.openInNewTab.bind(this, this.contextMenuActionPerformed.bind(this))
+            }}
+            position={{ x: this.state.context_menu.x, y: this.state.context_menu.y }}
+            display={this.state.context_menu.display ? 'flex' : 'none'}
+          />
+          <DsRoll
+            gallery={this.state.gallery}
+            images={this.state.images}
+            animation={this.state.animation}
+          />
           <DsControls
             actions={{
               next: this.nextImage.bind(this),
               prev: this.prevImage.bind(this),
-              jumpTo: () => console.log('Jump!')
+              jumpTo: this.jumpToImage.bind(this)
             }}
             images={this.state.images}
-            index={this.state.index.current
-            }
+            index={this.state.index.current}
           />
         </div>
       </Hammer >

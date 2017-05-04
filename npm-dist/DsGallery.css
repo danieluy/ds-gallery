@@ -5,6 +5,7 @@
   font-size: 16px;
 }
 .ds-gallery{
+  position: relative;
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -33,6 +34,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: background-color 200ms ease-out;
+}
+.ds-controls:hover{
+  background-color: rgba(0, 0, 0, 0.25);
 }
 .ds-control-dots{
   display: flex;
@@ -41,7 +47,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #555;
+  background-color: #ffffff;
   margin: 0 5px;
   cursor: pointer;
   transition: transform 200ms linear;
@@ -50,8 +56,12 @@
   width: 60px;
   height: 60px;
   padding: 15px;
-  fill: #555;
+  fill: #ffffff;
   cursor: pointer;
+  transition: transform 200ms ease-out;
+}
+.ds-control-arrow:hover{
+  transform: scale(1.2);
 }
 @media screen and (max-width: 480px){
   .ds-control-arrow{
