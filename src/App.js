@@ -25,7 +25,7 @@ class App extends Component {
           images={this.test_gallery}
           options={{
             open_new_window: true,
-            donload: true,
+            download: true,
             animation_duration_ms: 500,
             width: null,
             height: null

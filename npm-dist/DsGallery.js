@@ -24,6 +24,10 @@ var _DsControls = require('./DsControls');
 
 var _DsControls2 = _interopRequireDefault(_DsControls);
 
+var _ContextMenu = require('./ContextMenu');
+
+var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42,9 +46,7 @@ var DsGallery = function (_Component) {
 
     _this.state = {
       index: {
-        prev: props.images.length - 1,
-        current: 0,
-        next: props.images.length > 1 ? 1 : 0
+        current: 0
       },
       images: props.images,
       animation: {
@@ -58,6 +60,11 @@ var DsGallery = function (_Component) {
         width: 0,
         height: 0,
         roll_width: 10000
+      },
+      context_menu: {
+        x: 0,
+        y: 0,
+        display: false
       }
     };
     window.addEventListener('resize', _this.setGalleryState.bind(_this));
@@ -71,7 +78,7 @@ var DsGallery = function (_Component) {
     }
   }, {
     key: 'updateRollAnimationState',
-    value: function updateRollAnimationState(x) {
+    value: function updateRollAnimationState() {
       var name = this.state.animation.name.split('_');
       this.setState({
         animation: {
@@ -81,46 +88,6 @@ var DsGallery = function (_Component) {
           x_end: this.state.gallery.width * this.state.index.current * -1
         }
       });
-    }
-  }, {
-    key: 'setIndexNext',
-    value: function setIndexNext() {
-      var _this2 = this;
-
-      if (this.state.images.length > 1) {
-        var next = this.state.index.current + 2;
-        if (this.state.index.current === this.state.images.length - 2) next = 0;
-        if (this.state.index.current === this.state.images.length - 1) next = 1;
-        this.setState({
-          index: {
-            prev: this.state.index.current,
-            current: this.state.index.current === this.state.images.length - 1 ? 0 : this.state.index.current + 1,
-            next: next
-          }
-        }, function () {
-          return _this2.updateRollAnimationState.call(_this2);
-        });
-      }
-    }
-  }, {
-    key: 'setIndexPrev',
-    value: function setIndexPrev() {
-      var _this3 = this;
-
-      if (this.state.images.length > 1) {
-        var prev = this.state.index.current - 2;
-        if (this.state.index.current === 1) prev = this.state.images.length - 1;
-        if (this.state.index.current === 0) prev = this.state.images.length - 2;
-        this.setState({
-          index: {
-            prev: prev,
-            current: this.state.index.current === 0 ? this.state.images.length - 1 : this.state.index.current - 1,
-            next: this.state.index.current
-          }
-        }, function () {
-          return _this3.updateRollAnimationState.call(_this3);
-        });
-      }
     }
   }, {
     key: 'setGalleryState',
@@ -144,38 +111,148 @@ var DsGallery = function (_Component) {
       }
     }
   }, {
+    key: 'jumpToImage',
+    value: function jumpToImage(index) {
+      var _this2 = this;
+
+      this.setState({
+        index: {
+          current: index
+        }
+      }, function () {
+        return _this2.updateRollAnimationState.call(_this2);
+      });
+    }
+  }, {
     key: 'nextImage',
     value: function nextImage() {
-      this.setIndexNext();
+      var _this3 = this;
+
+      if (this.state.images.length > 1) {
+        this.setState({
+          index: {
+            current: this.state.index.current === this.state.images.length - 1 ? 0 : this.state.index.current + 1
+          }
+        }, function () {
+          return _this3.updateRollAnimationState.call(_this3);
+        });
+      }
     }
   }, {
     key: 'prevImage',
     value: function prevImage() {
-      this.setIndexPrev();
+      var _this4 = this;
+
+      if (this.state.images.length > 1) {
+        this.setState({
+          index: {
+            current: this.state.index.current === 0 ? this.state.images.length - 1 : this.state.index.current - 1
+          }
+        }, function () {
+          return _this4.updateRollAnimationState.call(_this4);
+        });
+      }
     }
   }, {
-    key: 'swipeHandler',
-    value: function swipeHandler(evt) {
+    key: 'onSwipeHandler',
+    value: function onSwipeHandler(evt) {
       if (evt.deltaX < 0) this.nextImage();
       if (evt.deltaX > 0) this.prevImage();
+    }
+  }, {
+    key: 'onPressHandler',
+    value: function onPressHandler(evt) {
+      evt.preventDefault();
+      this.displayContextMenu({ x: evt.srcEvent.clientX, y: evt.srcEvent.clientY });
+    }
+  }, {
+    key: 'onRightClickHandler',
+    value: function onRightClickHandler(evt) {
+      evt.preventDefault();
+      this.displayContextMenu({ x: evt.clientX, y: evt.clientY });
+    }
+  }, {
+    key: 'displayContextMenu',
+    value: function displayContextMenu(coord) {
+      this.setState({
+        context_menu: {
+          x: coord.x,
+          y: coord.y,
+          display: true
+        }
+      });
+    }
+  }, {
+    key: 'onTapHandler',
+    value: function onTapHandler(evt) {
+      console.log('Tap', evt);
+    }
+  }, {
+    key: 'closeContextMenu',
+    value: function closeContextMenu() {
+      this.setState({ context_menu: { display: false } });
+    }
+  }, {
+    key: 'openInNewWindow',
+    value: function openInNewWindow() {
+      window.open(this.getImageAbsoluteURL(this.state.images[this.state.index.current]));
+      this.closeContextMenu();
+    }
+  }, {
+    key: 'getImageAbsoluteURL',
+    value: function getImageAbsoluteURL(path) {
+      var img = document.createElement('img');
+      img.src = path;
+      return img.src;
+    }
+  }, {
+    key: 'downloadImage',
+    value: function downloadImage() {
+      var link = document.createElement('a');
+      link.href = this.getImageAbsoluteURL(this.state.images[this.state.index.current]);
+      link.download = '';
+      link.setAttribute('hidden', '');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      this.closeContextMenu();
+    }
+  }, {
+    key: 'doAndCloseContextMenu',
+    value: function doAndCloseContextMenu(action) {
+      action();
+      this.closeContextMenu();
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         _reactHammerjs2.default,
-        { onSwipe: this.swipeHandler.bind(this) },
+        { onSwipe: this.onSwipeHandler.bind(this), onPress: this.onPressHandler.bind(this), onContextMenu: this.onRightClickHandler.bind(this) },
         _react2.default.createElement(
           'div',
           { className: 'ds-gallery', id: 'ds-gallery-wrapper' },
-          _react2.default.createElement(_DsRoll2.default, { gallery: this.state.gallery, images: this.state.images, animation: this.state.animation }),
+          _react2.default.createElement(_ContextMenu2.default, {
+            actions: {
+              'Next image': this.doAndCloseContextMenu.bind(this, this.nextImage.bind(this)),
+              'Previous image': this.doAndCloseContextMenu.bind(this, this.prevImage.bind(this)),
+              'Open in new window': this.openInNewWindow.bind(this),
+              'Download': this.downloadImage.bind(this),
+              'Cancel': this.closeContextMenu.bind(this)
+            },
+            position: { x: this.state.context_menu.x, y: this.state.context_menu.y },
+            display: this.state.context_menu.display ? 'flex' : 'none'
+          }),
+          _react2.default.createElement(_DsRoll2.default, {
+            gallery: this.state.gallery,
+            images: this.state.images,
+            animation: this.state.animation
+          }),
           _react2.default.createElement(_DsControls2.default, {
             actions: {
               next: this.nextImage.bind(this),
               prev: this.prevImage.bind(this),
-              jumpTo: function jumpTo() {
-                return console.log('Jump!');
-              }
+              jumpTo: this.jumpToImage.bind(this)
             },
             images: this.state.images,
             index: this.state.index.current

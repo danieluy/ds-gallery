@@ -2,6 +2,11 @@
   "name": "ds-gallery",
   "version": "0.2.3",
   "description": "React component to display static images",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "babel src/ds-gallery --out-dir npm-dist",
+    "prepublish": "npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danieluy/ds-gallery.git"
@@ -23,10 +28,5 @@
   },
   "author": "Daniel Sosa <danielsosa.dev@gmail.com>",
   "license": "MIT",
-  "main": "./npm-dist/DsGallery.js",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "babel src/ds-gallery --out-dir npm-dist",
-    "prepublish": "npm run build"
-  }
+  "main": "./npm-dist/DsGallery.js"
 }

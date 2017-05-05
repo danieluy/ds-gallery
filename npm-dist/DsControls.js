@@ -88,9 +88,9 @@ var DsControls = function (_Component) {
 }(_react.Component);
 
 DsControls.propTypes = {
-  actions: _propTypes2.default.PropTypes.objectOf(_propTypes2.default.func),
-  images: _propTypes2.default.array,
-  index: _propTypes2.default.number
+  actions: _propTypes2.default.objectOf(_propTypes2.default.func).isRequired,
+  images: _propTypes2.default.array.isRequired,
+  index: _propTypes2.default.number.isRequired
 };
 
 exports.default = DsControls;

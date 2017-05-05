@@ -9,10 +9,16 @@ import DsGallery from 'ds-gallery';
   images={arrayOfImageURLs}
   options={{
     open_new_window: true,
-    donload: true,
+    download: true,
     animation_duration_ms: null,
     width: null,
     height: null
   }}
 />
 ```
+
+## Changelog
+* v0.2.3
+  * New functionalities and bug fixes
+* v0.2.2
+  * First working version
