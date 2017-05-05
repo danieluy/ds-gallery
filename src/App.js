@@ -24,8 +24,11 @@ class App extends Component {
         <DsGallery
           images={this.test_gallery}
           options={{
-            tap_to_open: true,
-            animation_duration_ms: 500
+            open_new_window: true,
+            donload: true,
+            animation_duration_ms: 500,
+            width: null,
+            height: null
           }}
         />
       </div>

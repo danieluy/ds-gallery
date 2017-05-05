@@ -132,15 +132,35 @@ class DsGallery extends Component {
     console.log('Tap', evt);
   }
 
-  contextMenuActionPerformed() {
+  closeContextMenu() {
     this.setState({ context_menu: { display: false } })
   }
 
-  openInNewTab(actionPerformed){
-    var img = document.createElement('img');
-    img.src = this.state.images[this.state.index.current];
-    window.open(img.src);
-    actionPerformed();
+  openInNewWindow() {
+    window.open(this.getImageAbsoluteURL(this.state.images[this.state.index.current]));
+    this.closeContextMenu();
+  }
+
+  getImageAbsoluteURL(path) {
+    const img = document.createElement('img');
+    img.src = path;
+    return img.src;
+  }
+
+  downloadImage() {
+    const link = document.createElement('a');
+    link.href = this.getImageAbsoluteURL(this.state.images[this.state.index.current]);
+    link.download = '';
+    link.setAttribute('hidden', '');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    this.closeContextMenu();
+  }
+
+  doAndCloseContextMenu(action){
+    action();
+    this.closeContextMenu();
   }
 
   render() {
@@ -149,7 +169,11 @@ class DsGallery extends Component {
         <div className="ds-gallery" id="ds-gallery-wrapper">
           <ContextMenu
             actions={{
-              'Open in new window': this.openInNewTab.bind(this, this.contextMenuActionPerformed.bind(this))
+              'Next image': this.doAndCloseContextMenu.bind(this, this.nextImage.bind(this)),
+              'Previous image': this.doAndCloseContextMenu.bind(this, this.prevImage.bind(this)),
+              'Open in new window': this.openInNewWindow.bind(this),
+              'Download': this.downloadImage.bind(this),
+              'Cancel': this.closeContextMenu.bind(this)
             }}
             position={{ x: this.state.context_menu.x, y: this.state.context_menu.y }}
             display={this.state.context_menu.display ? 'flex' : 'none'}

@@ -66,6 +66,22 @@
   transform: scale(1.2);
 }
 
+/*--  Context menu  -----------------------------------------------*/
+.ds-context-menu{
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.ds-context-menu-action{
+  background-color: #ffffff;
+  border-style: none;
+  font-size: .85rem;
+  padding: 10px 20px;
+  text-align: left;
+}
+.ds-context-menu-action:hover{
+  background-color: #eeeeee;
+}
 
 
 

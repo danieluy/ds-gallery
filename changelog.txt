@@ -1,22 +1,28 @@
 [DS Gallery - React Component]
 
 #ToDo
-  00000000 | T | add jump-to image control on dots
-  00000000 | T | automate copy/replace DsGallery.css on build
-  00000000 | T | add PropType to every module
-  00000000 | T | add ability to handle delegated key presses
+  00000000 | T | Config [download:boolean] defaults to true
+  00000000 | T | Config [open_new_window:boolean] defaults to true
+  00000000 | T | Config [width:number] defaults to null
+  00000000 | T | Config [height:number] defaults to null
+  00000000 | T | Config [actions:Array<Function>] defaults to null (personalized actions)
+  00000000 | T | Respond to screen size changes
+  00000000 | T | Add PropType to every module
+  00000000 | T | Add ability to handle delegated key presses
+  00000000 | T | Automate copy/replace DsGallery.css on build
 v0.2.3
-  20170504 | P | added contextual menu option "open in new window"
-  20170502 | P | added new style/behaviour to controls
-  20170502 | F1 | the position of the gallery-wrapper is now relative
+  20170504 | P | Added contextual menu options
+  20170504 | P | Added jump-to image control on dots
+  20170502 | P | Added new style/behaviour to controls
+  20170502 | F1 | The position of the gallery-wrapper is now relative
 v0.2.2
-  20170428 | B1 | controls are positioned relative to the gallery's parent
-  20170428 | F | fixed main path on package.json
+  20170428 | B1 | Controls are positioned relative to the gallery's parent
+  20170428 | F | Fixed main path on package.json
 v0.2.1
-  20170428 | F | fixed devDependencies that wore listed as dependencies
+  20170428 | F | Fixed devDependencies that wore listed as dependencies
 v0.2.0
-  20170428 | P | npm published version now actually works
-  20170428 | P | added babel dependencies
+  20170428 | P | Npm published version now actually works
+  20170428 | P | Added babel dependencies
 v0.1.0
   20170426 | P | Added DsControls
   20170425 | P | Added DsRoll
