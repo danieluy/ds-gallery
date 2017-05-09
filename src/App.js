@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import DsGallery from './ds-gallery/DsGallery';
 
 class App extends Component {
-  test_gallery = [
+  test_images_array = [
     'http://placeimg.com/640/480/people',
     'http://placeimg.com/800/600/people',
     'http://placeimg.com/1024/768/people',
@@ -22,7 +22,7 @@ class App extends Component {
     return (
       <div className="App" style={this.styles}>
         <DsGallery
-          images={this.test_gallery}
+          images={this.test_images_array}
           options={{
             open_new_window: true,
             download: true,

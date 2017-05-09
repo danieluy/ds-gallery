@@ -37,7 +37,7 @@ var DsRoll = function (_Component) {
       if (x_start !== x_end) {
         var stylesheet = document.styleSheets[0];
         var keyframes = '\n        @keyframes ' + animation_name + ' {\n          0% {transform: translate(' + x_start + 'px)}\n          100% {transform: translate(' + x_end + 'px)}\n        }\n      ';
-        stylesheet.insertRule(keyframes, stylesheet.cssRules.length);
+        if (stylesheet.cssRules) stylesheet.insertRule(keyframes, stylesheet.cssRules.length);else stylesheet.insertRule(keyframes, 0);
       }
     }
   }, {

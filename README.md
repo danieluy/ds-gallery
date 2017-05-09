@@ -18,6 +18,8 @@ import DsGallery from 'ds-gallery';
 ```
 
 ## Changelog
+* v0.2.4
+  * Fixes a mayor bug that prevented the gallery from working
 * v0.2.3
   * New functionalities and bug fixes
 * v0.2.2
