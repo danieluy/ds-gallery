@@ -10,6 +10,10 @@
   00000000 | T | Add PropType to every module
   00000000 | T | Add ability to handle delegated key presses
   00000000 | T | Automate copy/replace DsGallery.css on build
+v0.3.1
+  20170802 | P | Optimized build for production
+v0.3.0
+  20170802 | R | Implemented Webpack bundling process
 v0.2.4
   20170509 | F | On DsRoll when inserting a new rule to the stylesheet, if stylesheet.cssRules === null, insert into stylesheet.cssRules.length, otherwise insert into 0
 v0.2.3

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import DsGallery from './ds-gallery/DsGallery';
+// const DsGallery = require('../npm-dist/DsGallery').default;
+import DsGallery from '../npm-dist/DsGallery';
 
 class App extends Component {
   test_images_array = [

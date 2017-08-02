@@ -18,6 +18,10 @@ import DsGallery from 'ds-gallery';
 ```
 
 ## Changelog
+* v0.3.1
+  * Optimized build for production
+* v0.3.0
+  * Implemented Webpack bundling process
 * v0.2.4
   * Fixes a mayor bug that prevented the gallery from working
 * v0.2.3
